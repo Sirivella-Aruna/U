@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Virtual Campus Tour</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Video background */
+    .video-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      overflow: hidden;
+      filter: brightness(1.2);
+    }
+    .video-bg iframe {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100vw;
+      height: 56.25vw;
+      min-height: 100vh;
+      min-width: 177.77vh;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    /* AI floating button */
+    .ai-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #ffffffcc;
+      backdrop-filter: blur(8px);
+      border-radius: 50%;
+      padding: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      cursor: pointer;
+      z-index: 50;
+      transition: transform 0.2s ease;
+    }
+    .ai-button:hover {
+      transform: scale(1.1);
+    }
+
+    /* Chat modal */
+    .chat-modal {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 350px;
+      max-height: 500px;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      display: none;
+      flex-direction: column;
+      z-index: 60;
+      overflow: hidden;
+    }
+    .chat-header {
+      background-color: #4f46e5;
+      color: white;
+      padding: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-weight: bold;
+    }
+    .chat-body {
+      padding: 12px;
+      overflow-y: auto;
+      flex-grow: 1;
+      font-size: 14px;
+    }
+    .chat-input-area {
+      display: flex;
+      border-top: 1px solid #ccc;
+      padding: 8px;
+    }
+    .chat-input {
+      flex: 1;
+      padding: 6px 8px;
+      border: 1px solid #ccc;
+      border-radius: 0.5rem;
+      font-size: 14px;
+    }
+    .send-btn {
+      background-color: #4f46e5;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 0.5rem;
+      margin-left: 8px;
+    }
+
+    /* Dark mode */
+    body.dark {
+      background-color: #1f2937;
+      color: #f9fafb;
+    }
+    body.dark .chat-modal {
+      background-color: #2d3748;
+      color: #f9fafb;
+    }
+    body.dark .chat-input {
+      background-color: #4a5568;
+      color: #fff;
+      border-color: #718096;
+    }
+    body.dark nav {
+      background-color: #111827cc !important;
+      color: #f9fafb;
+    }
+    body.dark nav a {
+      color: #e5e7eb;
+    }
+    body.dark nav a:hover {
+      color: #60a5fa;
+    }
+    body.dark .send-btn {
+      background-color: #3b82f6;
+    }
+  </style>
+</head>
+<body class="transition-colors duration-300">
+
+  <!-- Background Video -->
+  <div class="video-bg">
+    <iframe
+      src="https://www.youtube.com/embed/SEmpCPFQIno?autoplay=1&mute=1&loop=1&playlist=SEmpCPFQIno&controls=0&modestbranding=1&showinfo=0&rel=0"
+      frameborder="0"
+      allow="autoplay; fullscreen"
+      allowfullscreen
+    ></iframe>
+  </div>
+
+  <!-- Navbar -->
+  <nav class="bg-white bg-opacity-90 backdrop-blur-md shadow-lg px-8 py-4 flex justify-between items-center rounded-b-2xl z-10 relative">
+    <div class="text-3xl font-extrabold text-blue-600 tracking-wide flex items-center gap-2">
+      🎓 <span>Virtual Campus</span>
+    </div>
+   <ul class="flex space-x-8 font-semibold text-lg">
+  <li><a href="Home.html" class="hover:text-blue-500 transition">Home</a></li>
+  <li><a href="about.html" class="hover:text-blue-500 transition">About Us</a></li>
+  <li><a href="tour.html" class="hover:text-blue-500 transition">3D Tour</a></li>
+  <li><a href="feedback.html" class="hover:text-blue-500 transition">Feedback</a></li>
+  <li><a href="map.html" class="hover:text-blue-500 transition">Map</a></li>
+</ul>
+
+    <!-- Dark Mode Toggle -->
+    <button id="darkModeBtn" class="ml-4 text-xl" title="Toggle Dark Mode">🌓</button>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="text-center py-36 px-6 relative z-10">
+    <h1 class="text-4xl sm:text-5xl font-bold text-blue-500/90 drop-shadow-lg mb-4">Welcome to the Virtual Campus Tour</h1>
+    <p class="text-lg sm:text-xl text-blue-500/80 max-w-3xl mx-auto">Explore our campus in 3D, learn our mission, and leave feedback to help us improve your virtual experience.</p>
+  </section>
+
+  <!-- AI Chat Button -->
+  <div class="ai-button" id="chatBtn" title="Ask AI Assistant">
+    <img src="https://img.icons8.com/clouds/100/artificial-intelligence.png" alt="AI Icon" class="w-8 h-8"/>
+  </div>
+
+  <!-- Chat Modal -->
+  <div class="chat-modal" id="chatModal">
+    <div class="chat-header">
+      AI Assistant
+      <span style="cursor:pointer;" onclick="toggleChat()">✖</span>
+    </div>
+    <div class="chat-body" id="chatMessages">
+      <p><strong>AI:</strong> Hello! How can I assist you with the campus tour?</p>
+    </div>
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" class="chat-input" placeholder="Ask something..." onkeydown="if(event.key==='Enter')sendMessage()"/>
+      <button class="send-btn" onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    const body = document.body;
+    const darkModeBtn = document.getElementById('darkModeBtn');
+    const chatBtn = document.getElementById('chatBtn');
+    const chatModal = document.getElementById('chatModal');
+
+    // Load dark mode from localStorage
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark');
+    }
+
+    // Toggle dark mode
+    darkModeBtn.addEventListener('click', () => {
+      body.classList.toggle('dark');
+      localStorage.setItem('theme', body.classList.contains('dark') ? 'dark' : 'light');
+    });
+
+    // Toggle chat modal
+    chatBtn.addEventListener('click', () => {
+      chatModal.style.display = (chatModal.style.display === 'flex') ? 'none' : 'flex';
+    });
+
+    function toggleChat() {
+      chatModal.style.display = 'none';
+    }
+
+    // Send message to AI
+    async function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const chatBox = document.getElementById('chatMessages');
+      const message = input.value.trim();
+      if (!message) return;
+
+      chatBox.innerHTML += `<p><strong>You:</strong> ${message}</p>`;
+      input.value = "";
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      try {
+        const response = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message })
+        });
+        const data = await response.json();
+        const reply = data.reply || "Sorry, I couldn't get a response.";
+        chatBox.innerHTML += `<p><strong>AI:</strong> ${reply}</p>`;
+      } catch {
+        chatBox.innerHTML += `<p><strong>AI:</strong> Error connecting to AI service.</p>`;
+      }
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

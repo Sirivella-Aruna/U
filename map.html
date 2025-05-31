@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Virtual Campus Tour - KMIT</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
+      color: #111827;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    header {
+      background-color:#7c4dff;
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 1.8rem;
+    }
+
+    nav {
+      display: flex;
+      align-items: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin-left: 1rem;
+    }
+
+    .dark-toggle {
+      margin-left: 1.5rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .map-section {
+      padding: 3rem 2rem;
+      text-align: center;
+    }
+
+    .map-section h2 {
+      font-size: 2rem;
+      color: #6d7bea;
+      margin-bottom: 1.5rem;
+    }
+
+    .map-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    iframe {
+      width: 100%;
+      height: 500px;
+      border: none;
+    }
+
+    footer {
+      margin-top: 3rem;
+      background-color:#7c4dff;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+
+    /* Dark mode styles */
+    body.dark-mode {
+      background-color:#5f3dc4;
+      color: #f9fafb;
+    }
+
+    body.dark-mode .map-section h2 {
+      color: #93c5fd;
+    }
+
+    body.dark-mode header {
+      background-color: #0f172a;
+    }
+
+    body.dark-mode nav a {
+      color: #e5e7eb;
+    }
+
+    body.dark-mode footer {
+      background-color:#7c4dff,;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>Virtual Campus Tour</h1>
+    <nav>
+      <a href="#map">Map</a>
+      <span class="dark-toggle" id="darkToggle" title="Toggle Dark Mode">🌓</span>
+    </nav>
+  </header>
+
+  <!-- Map Section -->
+  <section id="map" class="map-section">
+    <h2>Keshav Memorial Institute of Technology</h2>
+    <div class="map-container">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3806.2022213515456!2d78.4881697750342!3d17.397181902040155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb99b0a6a5df1b%3A0xf84941953d18d63e!2sKeshav%20Memorial%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1715682696954!5m2!1sen!2sin"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2025 Virtual Campus Tour - KMIT. All rights reserved.
+  </footer>
+
+  <!-- Dark Mode Script -->
+  <script>
+    const toggle = document.getElementById('darkToggle');
+    const body = document.body;
+
+    // Load saved theme
+    if (localStorage.getItem('theme') === 'dark') {
+      body.classList.add('dark-mode');
+    }
+
+    toggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>
+
+

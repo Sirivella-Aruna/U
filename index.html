@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login Portal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      background-image: url('https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=1350&q=80');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(3px);
+    }
+
+    .login-card {
+      background: rgba(255, 255, 255, 0.85);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      width: 320px;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-card h2 {
+      font-size: 28px;
+      margin-bottom: 25px;
+      color: #7B3F00; /* floral deep brown */
+    }
+
+    .btn {
+      background: linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%);
+      color: #4a148c;
+      border: none;
+      padding: 14px 28px;
+      margin: 12px 0;
+      width: 100%;
+      border-radius: 50px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: linear-gradient(135deg, #a6c1ee 0%, #fbc2eb 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-card">
+    <h2>Welcome to the Portal</h2>
+    <button onclick="window.location.href='UserLogin.html'">Login as User</button>
+
+
+<button
+  onclick="window.location.href='AdminLogin.html'"
+  class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4"
+>
+  Login as Admin
+</button>
+</body>
+</html>
+
+

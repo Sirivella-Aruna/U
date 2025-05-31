@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Feedback - KMIT</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="bg-gradient-to-br from-purple-200 to-indigo-300 min-h-screen p-6">
+  <div class="max-w-2xl mx-auto bg-white rounded-2xl shadow-2xl p-6">
+    <h1 class="text-3xl font-bold text-center text-indigo-700 mb-6">📢 We Value Your Feedback</h1>
+
+    <form id="feedbackForm" enctype="multipart/form-data" class="space-y-5">
+      <!-- Name -->
+      <div>
+        <label for="name" class="block text-lg font-medium text-gray-700">Your Name</label>
+        <input type="text" name="name" id="name" required
+          class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm text-base focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-lg font-medium text-gray-700">Email</label>
+        <input type="email" name="email" id="email" required
+          class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm text-base focus:ring-indigo-500 focus:border-indigo-500">
+      </div>
+
+      <!-- Feedback Type -->
+      <div>
+        <label for="type" class="block text-lg font-medium text-gray-700">Feedback Type</label>
+        <select name="type" id="type"
+          class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm text-base focus:ring-indigo-500 focus:border-indigo-500">
+          <option>General</option>
+          <option>Website UI</option>
+          <option>Technical Issue</option>
+          <option>Club Activity</option>
+        </select>
+      </div>
+
+      <!-- Message -->
+      <div>
+        <label for="message" class="block text-lg font-medium text-gray-700">Message</label>
+        <textarea name="message" id="message" rows="4" required
+          class="mt-1 w-full px-4 py-3 border border-gray-300 rounded-xl shadow-sm text-base focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+      </div>
+
+      <!-- Screenshot Upload -->
+      <div>
+        <label for="screenshot" class="block text-lg font-medium text-gray-700">Upload Screenshot (optional)</label>
+        <input type="file" name="screenshot" id="screenshot" accept="image/*"
+          class="mt-1 w-full px-4 py-2 border border-gray-300 rounded-xl text-base" />
+      </div>
+
+      <!-- Submit Button -->
+      <div class="text-center">
+        <button type="submit"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-full text-lg transition duration-300">
+          Send Feedback
+        </button>
+      </div>
+    </form>
+  </div>
+  <script>
+document.getElementById('feedbackForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const name = document.getElementById('name').value;
+  const email = document.getElementById('email').value;
+  const message = document.getElementById('message').value;
+
+  const response = await fetch('http://localhost:5000/api/feedback', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, message })
+  });//feedback is saved to mongodb usinmg server.js
+
+  if (response.ok) {
+    alert('Feedback submitted!');
+    this.reset();
+  } else {
+    alert('Submission failed. Please try again.');
+  }
+});
+</script>
+
+</body>
+
+</html>

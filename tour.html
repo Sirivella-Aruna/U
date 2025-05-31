@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" x-data="{ tab: 'canteen', darkMode: false }" :class="darkMode ? 'dark' : ''">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>3D Campus Tour | KMIT</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #e7b458, #ec874c);
+      transition: background 0.3s, color 0.3s;
+    }
+    .dark body {
+      background: linear-gradient(to bottom right, #37474f, #546e7a);
+      color: #e0f2f1;
+    }
+    .sketchfab-embed-wrapper iframe {
+      width: 100%;
+      height: 400px;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body class="text-gray-900 dark:text-gray-100 overflow-x-hidden">
+
+  <nav class="flex justify-between items-center px-6 py-4 bg-blue-200 dark:bg-gray-700 shadow">
+    <h1 class="text-2xl font-bold text-blue-900 dark:text-white">Welcome to KMIT's 3D Campus Tour</h1>
+    <button @click="darkMode = !darkMode" class="text-2xl">
+      <span x-show="!darkMode">🌙</span>
+      <span x-show="darkMode">☀</span>
+    </button>
+  </nav>
+
+  <!-- Tabs -->
+  <div class="flex justify-center flex-wrap gap-4 mt-6">
+    <template x-for="section in ['canteen', 'ground', 'classroom', 'audi', 'lab']" :key="section">
+      <button
+        @click="tab = section"
+        class="px-4 py-2 rounded bg-blue-300 dark:bg-gray-600 text-blue-900 dark:text-white"
+        :class="{ 'font-bold underline': tab === section }"
+        x-text="section.charAt(0).toUpperCase() + section.slice(1)">
+      </button>
+    </template>
+  </div>
+
+  <!-- Content Area -->
+  <div class="p-6 max-w-5xl mx-auto space-y-16">
+
+    <!-- Section Template -->
+    <template x-for="section in [
+      {
+        id: 'canteen',
+        title: 'KMIT Canteen',
+        description: `Our canteen is more than just a place to eat—it's the heart of student life. Between classes, students gather here to relax, chat, and share meals.
+        From steaming hot samosas to refreshing cool drinks, the menu reflects our diverse tastes. The energy here is always buzzing, with laughter in every corner.
+        Whether you're grabbing a morning coffee or catching up with friends, the canteen is a space where college life truly comes alive.`,
+
+        embed: 'https://sketchfab.com/3d-models/canteen-b1088e1d6e244f818804fcc2c681c971/embed'
+      },
+      {
+        id: 'ground',
+        title: 'KMIT Ground',
+        description: `The college ground is where all the big events unfold—sports days, fests, open-air concerts, and spontaneous football matches.
+        It’s a large, open space full of fresh air, green patches, and youthful energy. You’ll often find students practicing dance routines,
+        running laps, or simply enjoying the sunshine. This ground holds countless memories of cheering crowds and spirited competitions.`,
+
+        embed: 'https://sketchfab.com/models/68d9ced506dc496bbe0a3f612e0c9315/embed'
+      },
+      {
+        id: 'classroom',
+        title: 'KMIT Classroom',
+        description: `Step into one of our vibrant classrooms where lectures, brainstorming, and teamwork happen every day. Each room is well-ventilated,
+        digitally equipped, and built to encourage learning. Whether it's coding, design, or theory, the environment is structured to help students 
+        stay curious and collaborative. This is where questions are asked, ideas are born, and knowledge is nurtured.`,
+
+        embed: 'https://sketchfab.com/models/ac555544534948c5819205eca8acbc31/embed'
+      },
+      {
+        id: 'audi',
+        title: 'KMIT Entrance',
+        description: `Welcome to KMIT! This is the main entrance to our vibrant campus — where every student's journey begins. As you step in, you're welcomed by
+        a blend of tradition and technology, setting the tone for an enriching college experience. The architecture reflects openness, ambition,
+        and the inclusive spirit of our institution. It's more than just a gate — it’s the beginning of countless memories, friendships, and opportunities.`,
+
+        embed: 'https://sketchfab.com/models/45684c21d77944be806e58efcfc42578/embed'
+      },
+      {
+        id: 'lab',
+        title: 'KMIT Lab',
+        description: `Our state-of-the-art computer labs are where code meets creativity. From software development to AI projects and electronics prototyping,
+        this is the engine room of innovation. With fast internet, high-performance systems, and expert guidance, KMIT labs support hands-on learning
+        for every aspiring techie. It’s where students bring their imagination to life, build apps, debug code, and prepare for real-world challenges.`,
+
+        embed: 'https://sketchfab.com/models/4703bc65ac81488083bea58bf36460eb/embed'
+      }
+    ]" :key="section.id">
+      <div x-show="tab === section.id" class="space-y-4">
+        <h2 class="text-3xl font-bold text-center text-blue-900 dark:text-blue-200" x-text="section.title + ' - 3D Tour'"></h2>
+        <div class="sketchfab-embed-wrapper">
+          <iframe :title="section.title" :src="section.embed"></iframe>
+        </div>
+        <div class="text-lg leading-relaxed text-gray-800 dark:text-gray-200 px-2 sm:px-8 text-justify">
+          <p x-text="section.description.split('\\n\\n')[0]"></p>
+          <br>
+          <p x-text="section.description.split('\\n\\n')[1] || ''"></p>
+        </div>
+      </div>
+    </template>
+
+  </div>
+</body>
+</html>
